@@ -1,0 +1,214 @@
+﻿<Window
+    x:Class="TWAINComm.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:vm="clr-namespace:TWAINComm.Demo.ViewModels"
+    xmlns:b="clr-namespace:TWAINComm.Demo.Behaviors"
+    mc:Ignorable="d" 
+    d:DesignHeight="800" d:DesignWidth="800"
+    Title="TWAINComm Demo App" 
+    WindowState="Maximized"
+    >
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Path=ViewLoadedCommand}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding Path=ViewClosedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Background="#FFEEEEEE">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" BorderBrush="#FF333333" BorderThickness="1,6" Padding="8">
+            <StackPanel Orientation="Vertical">
+                <TextBlock FontSize="16" FontWeight="Bold" Text="CONTROL" />
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBox Margin="0,0,10,0" IsReadOnly="True" IsTabStop="False" IsHitTestVisible="False" Focusable="False" Text="{Binding Path=ImageSavePath}" ToolTip="{Binding Path=ImageSavePath}" Width="500" />
+                    <Button Command="{Binding Path=ImageSavePathCommand}" Padding="10,2" Content="Save Location" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <Button Margin="0,0,10,0" Command="{Binding Path=SelectDeviceCommand}" Padding="10,2" Content="Select Source" />
+                    <Button Command="{Binding Path=NewScanCommand}" Padding="10,2" Content="Scan" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" BorderBrush="#FF333333" BorderThickness="1,0,1,6" Padding="8">
+            <StackPanel Orientation="Vertical">
+                <TextBlock FontSize="16" FontWeight="Bold" Text="DETAILS" />
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock Text="Twain State:" Margin="0,0,5,0" />
+                    <TextBlock Text="{Binding Path=TwainState}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Border BorderBrush="#FF333333" BorderThickness="1" Margin="0,5,10,0" Padding="10" MinWidth="300">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock TextDecorations="Underline" Text="APPLICATION IDENTITY" VerticalAlignment="Top" />
+                            <StackPanel Orientation="Horizontal"  Margin="0,5,0,5">
+                                <TextBlock Margin="0,0,5,0" Text="ID:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.Id}" />
+                            </StackPanel>
+
+                            <TextBlock Margin="0,5,0,0" TextDecorations="Underline" Text="Version" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Major:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.Version.MajorNum}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Minor:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.Version.MinorNum}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Language:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.Version.Language}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Country:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.Version.Country}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Info:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.Version.Info}" />
+                            </StackPanel>
+
+                            <TextBlock Margin="0,10,0,0" TextDecorations="Underline" Text="Protocol" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Major:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.ProtocolMajor}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Minor:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.ProtocolMinor}" />
+                            </StackPanel>
+
+                            <TextBlock Margin="0,10,0,0" TextDecorations="Underline" Text="Supported Groups" />
+                            <CheckBox IsChecked="{Binding Path=ApplicationIdentity.SupportedGroups.Control}" IsHitTestVisible="False" Focusable="False">
+                                <TextBlock Text="Control" />
+                            </CheckBox>
+                            <CheckBox IsChecked="{Binding Path=ApplicationIdentity.SupportedGroups.Image}" IsHitTestVisible="False" Focusable="False">
+                                <TextBlock Text="Image" />
+                            </CheckBox>
+                            <CheckBox IsChecked="{Binding Path=ApplicationIdentity.SupportedGroups.Audio}" IsHitTestVisible="False" Focusable="False">
+                                <TextBlock Text="Audio" />
+                            </CheckBox>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <TextBlock Margin="0,0,5,0" Text="Manufacturer:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.Manufacturer}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Product Family:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.ProductFamily}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Product Name:" />
+                                <TextBlock Text="{Binding Path=ApplicationIdentity.ProductName}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border BorderBrush="#FF333333" BorderThickness="1" Margin="0,5,0,0" Padding="10" MinWidth="300">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock TextDecorations="Underline" Text="DATA SOURCE IDENTITY" VerticalAlignment="Top" />
+                            <StackPanel Orientation="Horizontal"  Margin="0,5,0,5">
+                                <TextBlock Margin="0,0,5,0" Text="ID:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.Id}" />
+                            </StackPanel>
+
+                            <TextBlock Margin="0,5,0,0" TextDecorations="Underline" Text="Version" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Major:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.Version.MajorNum}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Minor:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.Version.MinorNum}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Language:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.Version.Language}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Country:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.Version.Country}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Info:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.Version.Info}" />
+                            </StackPanel>
+
+                            <TextBlock Margin="0,10,0,0" TextDecorations="Underline" Text="Protocol" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Major:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.ProtocolMajor}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Minor:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.ProtocolMinor}" />
+                            </StackPanel>
+
+                            <TextBlock Margin="0,10,0,0" TextDecorations="Underline" Text="Supported Groups" />
+                            <CheckBox IsChecked="{Binding Path=DataSourceIdentity.SupportedGroups.Control}" IsHitTestVisible="False" Focusable="False">
+                                <TextBlock Text="Control" />
+                            </CheckBox>
+                            <CheckBox IsChecked="{Binding Path=DataSourceIdentity.SupportedGroups.Image}" IsHitTestVisible="False" Focusable="False">
+                                <TextBlock Text="Image" />
+                            </CheckBox>
+                            <CheckBox IsChecked="{Binding Path=DataSourceIdentity.SupportedGroups.Audio}" IsHitTestVisible="False" Focusable="False">
+                                <TextBlock Text="Audio" />
+                            </CheckBox>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <TextBlock Margin="0,0,5,0" Text="Manufacturer:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.Manufacturer}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Product Family:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.ProductFamily}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Product Name:" />
+                                <TextBlock Text="{Binding Path=DataSourceIdentity.ProductName}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" BorderBrush="#FF333333" BorderThickness="1,0,1,6" Padding="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" FontSize="16" FontWeight="Bold" Text="MESSAGES" />
+
+                <TextBox Grid.Row="1" Margin="0,5,0,0" Text="{Binding Path=TwainActionMessages}" IsTabStop="False" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden" IsReadOnly="True">
+                    <i:Interaction.Behaviors>
+                        <b:ScrollToBottom />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
